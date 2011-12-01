@@ -1,0 +1,24 @@
+#+TITLE:     seqdiag mode for Emacs
+#+AUTHOR:    Shunichi Shinohara
+
+* What is seqdiag
+
+  - Introduction of seqdiag ― blockdiag 1.0 documentation
+
+    http://blockdiag.com/en/seqdiag/introduction.html
+
+  - Interactive shell for seqdiag
+
+    http://blockdiag.appspot.com/seqdiag/
+
+* Emacs mode does
+
+  - Highlighting
+
+** TODOs
+
+  - Group appropreately keywords, builtins and so on.
+  - Execute seqdiag command and view result in buffer or launch appropriate viewer.
+  - Auto indent (seems difficult ...).
+  - Highlight or complete node labels.
+  - Highlight or some treatment for arrows like <-, ->, --> and so on..
