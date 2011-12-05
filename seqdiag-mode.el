@@ -91,6 +91,27 @@
   (highlight-lines-matching-regexp "^ *\\.\\.\\..*\\.\\.\\. *$" 'hi-darkgreen-b)
 )
 
+(defun seqdiag-compile ()
+  (interactive)
+  (let ((command (concat seqdiag-command
+                         " "
+                         seqdiag-command-options
+                         " "
+                         (buffer-file-name (current-buffer)))))
+    (message command)
+    (shell-command command)
+    ))
+
+(defun seqdiag-compile-open ()
+  (interactive)
+  (seqdiag-compile)
+  (let ((command (concat 
+                  "open "
+                  (file-name-sans-extension (buffer-file-name (current-buffer)))
+                  ".pdf")))
+    (shell-command command)
+  ))
+
 ;;;###autoload
 
 (defun seqdiag-mode ()
