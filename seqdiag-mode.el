@@ -19,6 +19,7 @@
 
 (defvar seqdiag-command "seqdiag")
 (defvar seqdiag-command-options "")
+(defvar seqdiag-pdf-open-command "open")
 
 ;;;; syntax table
 ;; I don't know anything about this :-/
@@ -93,24 +94,34 @@
 
 (defun seqdiag-compile ()
   (interactive)
-  (let ((command (concat seqdiag-command
-                         " "
-                         seqdiag-command-options
-                         " "
-                         (buffer-file-name (current-buffer)))))
+  (let ((command (seqdiag-compile-command-line))))
     (message command)
     (shell-command command)
-    ))
+    )
+
+(defun seqdiag-compile-command-line ()
+  (interactive)
+  (concat seqdiag-command
+          " "
+          seqdiag-command-options
+          " "
+          (buffer-file-name (current-buffer)))
+  )
 
 (defun seqdiag-compile-open ()
   (interactive)
   (seqdiag-compile)
-  (let ((command (concat 
-                  "open "
-                  (file-name-sans-extension (buffer-file-name (current-buffer)))
-                  ".pdf")))
+  (let ((command (seqdiag-pdf-open-command-line)))
     (shell-command command)
   ))
+
+(defun seqdiag-pdf-open-command-line ()
+  (interactive)
+  (concat
+   seqdiag-pdf-open-command
+   " "
+   (file-name-sans-extension (buffer-file-name (current-buffer)))
+   ".pdf"))
 
 ;;;###autoload
 
@@ -130,6 +141,10 @@
   (setq font-lock-defaults '((seqdiag-font-lock-keywords) nil t))
   (hi-lock-mode 1)
   (seqdiag-highlight-separator-lines)
+  (setq compile-command (concat
+                         (seqdiag-compile-command-line)
+                         " && "
+                         (seqdiag-pdf-open-command-line)))
 
   (run-mode-hooks 'seqdiag-mode-hook)
 )
